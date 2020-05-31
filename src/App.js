@@ -1,16 +1,18 @@
-import React from 'react';
+import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-function Hello() {
-    return (<h1>Hello Piktographic</h1>);
-}
-function App() {
-  return (
-    <div className="App">
-        <Hello />
+import BarChart from './BarChart'
 
-    </div>
-  );
-}
+class App extends Component {
+   render() {
+   return (
+      <div className='App'>
 
-export default App;
+      <div>
+      <BarChart data={[5,10,1,3]} size={[500,500]} />
+      </div>
+      </div>
+   )
+   }
+}
+export default App
