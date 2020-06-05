@@ -42,9 +42,9 @@ class BarChart extends Component {
       .attr('width', 25)
    }
 render() {
-      return <svg ref={node => this.node = node}
+      return (<svg ref={node => this.node = node}
       width={500} height={500}>
-      </svg>
+      </svg>);
    }
 }
 export default BarChart

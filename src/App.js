@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import BarChart from './BarChart'
+import D3Bar from './D3Bar'
 
 class App extends Component {
    render() {
@@ -9,7 +9,8 @@ class App extends Component {
       <div className='App'>
 
       <div>
-      <BarChart data={[5,10,1,3]} size={[500,500]} />
+      <
+          D3Bar data={[10,9,8,7,6,5,4,3]} size={[500,500]} />
       </div>
       </div>
    )
