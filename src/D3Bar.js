@@ -8,7 +8,7 @@ class D3Bar extends Component {
     constructor() {
       super();
       this.inputRef = React.createRef();
-      this.svgRef = React.createRef();
+      this.node = React.createRef();
       this.createBarChart = this.createBarChart.bind(this)
     }
     componentDidMount() {
@@ -51,7 +51,7 @@ class D3Bar extends Component {
     render() {
       return (
 
-        <svg ref={node => this.node = node}
+        <svg ref= {n => {this.node = n}}
             width={500} height={500}>
         </svg>
       );
