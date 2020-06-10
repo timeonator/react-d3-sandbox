@@ -28,7 +28,7 @@ class D3Bar extends Component {
       this.inputRef = React.createRef()
       this.node = React.createRef()
       this.createBarChart = this.createBarChart.bind(this)
-      this.state = {'data':[1,2,3,4,5] };
+      this.state = {'data':[] };
     }
 
     // fetch the state daily json data
@@ -63,7 +63,7 @@ class D3Bar extends Component {
     }
 
      componentDidUpdate() {
-         console.log("componentDidUpdate()")
+        console.log("componentDidUpdate()")
         this.createBarChart()
      }
 
