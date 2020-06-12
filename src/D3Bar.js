@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
+import StateSelector from './StateSelector'
 import { scaleLinear } from 'd3-scale'
 import { max } from 'd3-array'
 import { select } from 'd3-selection'
-var url = "https://covidtracking.com/api/v1/states/tx/daily.json";
+
 
 
 
@@ -18,8 +19,6 @@ var url = "https://covidtracking.com/api/v1/states/tx/daily.json";
         return response.json()
     }
 
-        
-
 class D3Bar extends Component {
 
     constructor(props) {
@@ -28,21 +27,35 @@ class D3Bar extends Component {
       this.inputRef = React.createRef()
       this.node = React.createRef()
       this.createBarChart = this.createBarChart.bind(this)
-      this.state = {'data':[] };
-    }
+      this.state = {
+          'data':[],
+          'currentState':'ca'
+     };
+      this.handleStateChange = this.handleStateChange.bind(this);
 
+    }
+    handleStateChange(value){
+        this.setState(value);
+    } 
+    
+    stateURL(state) {
+        let s = "https://covidtracking.com/api/v1/states/".concat(state).concat("/daily.json");
+        console.log(s) 
+        return(s); 
+    }
     // fetch the state daily json data
     fetchData(){
-        fetch(url)
-        .then(status)
-        .then(json)
-        .then((data) => {
-          this.setState ({ 'data' : data })
-          this.createBarChart()
-          console.log('Request succeeded with JSON response', this.state);
-        }).catch(function(error) {
-          console.log('Request failed', error);
-        });
+        this.url = this.stateURL(this.state.currentState);
+        fetch(this.url)
+            .then(status)
+            .then(json)
+            .then((data) => {
+                this.setState ({ 'data' : data })
+                this.createBarChart()
+                console.log('Request succeeded with JSON response', this.state);
+            }).catch(function(error) {
+                console.log('Request failed', error);
+            });
     }
 
     deaths()  {
@@ -58,22 +71,18 @@ class D3Bar extends Component {
         this.createBarChart();  
     }
 
-    componentWillUnmount() {
-        console.log("componentWillMount()")
-    }
-
      componentDidUpdate() {
         console.log("componentDidUpdate()")
         this.createBarChart()
      }
 
      createBarChart() {
-        console.log("The Data Looks Like", this.state)
+
         // don't render until the data arrives
         if(this.state.data.length === 0) { return(null);}
 
         let localData = (this.state.data.map(day=>day.deathIncrease));
-        console.log("Local Data", localData)
+
         const node = this.node
  
         const dataMax = max(localData)
@@ -112,9 +121,12 @@ class D3Bar extends Component {
         if (this.state.data.length === 0) return(null)
 
         return (
-            <svg ref = {n => {this.node = n}}
-                width={500} height={500}>
-            </svg>
+            <div>
+                <svg ref = {n => {this.node = n}}
+                    width={500} height={500}>
+                </svg>
+                <StateSelector  handleStateChange = {this.handleStateChange}/>
+            </div>
         );
     }
   }

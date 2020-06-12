@@ -44,11 +44,19 @@ class StateSelector extends Component {
 
     onChange (value, text) {
         console.log(value, text);
+        this.props.handleStateChange({fuckyou: value});
     }
-    render(props) {
-        let names = this.state.data.map(val => val.name)
+    render() {
+        console.log("StateSelector render: ", this.props)
+
+        let names = this.state.data.map(val => {
+             return({ text: val.name, value: val.state.toLowerCase() })
+        });
+
         return (
-            <ComboSelect data={names} onToggle = {this.onToggle} onChange = {this.onChange} type="select"/>
+            <ComboSelect data={names} onToggle = {this.onToggle} 
+                onChange = {(value,text) => {this.props.handleStateChange({ currentState : value})}}
+                type="select"/>
         )
     }
 }

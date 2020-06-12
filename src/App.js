@@ -16,7 +16,6 @@ class App extends Component {
         return (
             <div className='App'>
             <D3Bar  data = {[]} size={[500,200]} />
-            <StateSelector />
             </div>
         )
     }
