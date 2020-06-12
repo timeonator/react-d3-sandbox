@@ -45,9 +45,10 @@ class StateSelector extends Component {
     onChange (value, text) {
         console.log(value, text);
     }
-    render() {
+    render(props) {
+        let names = this.state.data.map(val => val.name)
         return (
-            <ComboSelect data={['all there is', 'oh no']} onToggle = {this.onToggle} onChange = {this.onChange} type="select"/>
+            <ComboSelect data={names} onToggle = {this.onToggle} onChange = {this.onChange} type="select"/>
         )
     }
 }
