@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import D3Bar from './D3Bar'
+import StateSelector from './StateSelector'
 
 class App extends Component {
     constructor(prop){
@@ -15,6 +16,7 @@ class App extends Component {
         return (
             <div className='App'>
             <D3Bar  data = {[]} size={[500,200]} />
+            <StateSelector />
             </div>
         )
     }
