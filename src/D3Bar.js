@@ -29,7 +29,7 @@ class D3Bar extends Component {
       this.createBarChart = this.createBarChart.bind(this)
       this.state = {
           'data':[],
-          'currentState':'ca'
+          'currentState': {state : 'ca', name : 'California' }
      };
       this.handleStateChange = this.handleStateChange.bind(this);
 
@@ -45,7 +45,7 @@ class D3Bar extends Component {
     }
     // fetch the state daily json data
     fetchData(){
-        this.url = this.stateURL(this.state.currentState);
+        this.url = this.stateURL(this.state.currentState.state);
         fetch(this.url)
             .then(status)
             .then(json)
@@ -121,7 +121,8 @@ class D3Bar extends Component {
         if (this.state.data.length === 0) return(null)
 
         return (
-            <div>
+            <div className="D3-bar-chart">
+                <h4>{this.state.currentState.name}</h4>
                 <svg ref = {n => {this.node = n}}
                     width={500} height={500}>
                 </svg>
