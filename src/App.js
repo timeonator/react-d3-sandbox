@@ -14,7 +14,7 @@ class App extends Component {
     render() {
         return (
             <div className='App'>
-            <D3Bar  data = {[]} size={[500,200]} />
+            <D3Bar  data = {[]} size={[1000,200]} />
             </div>
         )
     }

@@ -50,7 +50,7 @@ class D3Bar extends Component {
             .then(status)
             .then(json)
             .then((data) => {
-                this.setState ({ 'data' : data })
+                this.setState ({ 'data' : data.reverse() })
                 this.createBarChart()
                 console.log('Request succeeded with JSON response', this.state);
             }).catch(function(error) {
@@ -86,7 +86,9 @@ class D3Bar extends Component {
         const node = this.node
  
         const dataMax = max(localData)
-
+        const xScale = scaleLinear()
+            .domain([0, this.state.data[this.state.data.length-1].date])
+            .range([0,this.props.size[0]])
         const yScale = scaleLinear()
            .domain([0, dataMax])
            .range([0, this.props.size[1]]);
@@ -107,10 +109,10 @@ class D3Bar extends Component {
         .selectAll('rect')
         .data(localData)
         .style('fill', '#fe9922')
-        .attr('x', (d,i) => i * 4)
+        .attr('x', (d,i) => i * 2)
         .attr('y', d => this.props.size[1] - yScale(d))
         .attr('height', d => yScale(d))
-        .attr('width', 2)
+        .attr('width', 1)
      }  
     onClick() {
       this.inputRef.current.focus();
