@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import StateSelector from './StateSelector'
-import { scaleLinear } from 'd3-scale'
-import { max } from 'd3-array'
+import * as d3 from "d3";
+import { scaleLinear,scaleTime } from 'd3-scale'
+import {axisBottom} from 'd3-axis'
+import { max,min } from 'd3-array'
 import { select } from 'd3-selection'
-
-
-
 
     function status(response) {
         if (response.status >= 200 && response.status < 300) {
@@ -50,7 +49,7 @@ class D3Bar extends Component {
             .then(status)
             .then(json)
             .then((data) => {
-                this.setState ({ 'data' : data.reverse() })
+                this.setState ({ 'data' : data })
                 this.createBarChart()
                 console.log('Request succeeded with JSON response', this.state);
             }).catch(function(error) {
@@ -81,39 +80,63 @@ class D3Bar extends Component {
         // don't render until the data arrives
         if(this.state.data.length === 0) { return(null);}
 
-        let localData = (this.state.data.map(day=>day.deathIncrease));
+        let localData = (this.state.data.map(day=>day.positiveIncrease).reverse());
+        let timeLine = (this.state.data.map(day=>new Date(day.date))).reverse();
+        
+
+        console.log("timeLine:", timeLine);
 
         const node = this.node
  
         const dataMax = max(localData)
-        const xScale = scaleLinear()
-            .domain([0, this.state.data[this.state.data.length-1].date])
-            .range([0,this.props.size[0]])
+        // const timeMin = min(timeLine)
+        // const timeMax = max(timeLine)
+
+        const xScale = scaleTime()
+            .domain([timeLine[0]], timeLine[timeLine.length-1])
+            .range([0,this.props.size[0]]);
+
         const yScale = scaleLinear()
            .domain([0, dataMax])
            .range([0, this.props.size[1]]);
 
-     select(node)
+
+
+    const x_axis = axisBottom().scale(xScale)
+        .tickValues('2/29', '3/29','4/29','5/29','6/15')
+        .tickSize(10)
+        .ticks(10)
+    
+    select(node)
         .selectAll('rect')
         .data(localData)
         .enter()
         .append('rect')
      
-     select(node)
+    select(node)
         .selectAll('rect')
         .data(localData)
         .exit()
         .remove()
      
-     select(node)
+    select(node)
         .selectAll('rect')
         .data(localData)
         .style('fill', '#fe9922')
-        .attr('x', (d,i) => i * 2)
+        .attr('x', (d,i) => i*4)
         .attr('y', d => this.props.size[1] - yScale(d))
         .attr('height', d => yScale(d))
-        .attr('width', 1)
+        .attr('width', 1.5)
+
+        //Append group and insert axis
+        select(node)
+            .append("g")
+            .attr("transform", "translate(0," + this.props.size[1] + ")")
+            .call(x_axis);
      }  
+
+
+
     onClick() {
       this.inputRef.current.focus();
     }
