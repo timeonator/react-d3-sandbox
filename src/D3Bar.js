@@ -28,7 +28,7 @@ class D3Bar extends Component {
       this.createBarChart = this.createBarChart.bind(this)
       this.state = {
           'data':[],
-          'currentState': {state : 'ca', name : 'California' }
+          'currentState': {state : 'or', name : 'Oregon' }
      };
       this.handleStateChange = this.handleStateChange.bind(this);
 
@@ -103,9 +103,9 @@ class D3Bar extends Component {
 
 
     const x_axis = axisBottom().scale(xScale)
-        .tickValues('2/29', '3/29','4/29','5/29','6/15')
-        .tickSize(10)
-        .ticks(10)
+        .tickValues('2/29', '3/28','4/28','5/28','6/15', "7/15","8/15","9/15","10/15","11/15","12/15","1/15","2/15","3/15")
+        .tickSize(40)
+        .ticks(120)
     
     select(node)
         .selectAll('rect')
